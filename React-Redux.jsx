@@ -1,60 +1,44 @@
 //*************************************Redux********************************************
 
 // actionTypes.js
-const INCREMENT_COUNTER = "INCREMENT_COUNTER";
-const DECREMENT_COUNTER = "DECREMENT_COUNTER";
-
-export { INCREMENT_COUNTER, DECREMENT_COUNTER };
+export const INCREMENT_COUNTER = "INCREMENT_COUNTER";
 
 //action.js
-import { INCREMENT_COUNTER, DECREMENT_COUNTER } from "./actionTypes";
+import { INCREMENT_COUNTER } from "./actionTypes";
 
-function incrementCounter(payload) {
+export const incrementCounter = (payload) => {
   return { type: INCREMENT_COUNTER, payload: payload };
-}
-
-function decrementCounter(payload) {
-  return { type: DECREMENT_COUNTER, payload };
-}
-
-export { incrementCounter, decrementCounter };
+};
 
 //reducer.js
-function reducer(state, action) {
+export function reducer(store, action) {
   const { type, payload } = action;
 
   switch (type) {
     case "INCREMENT_COUNTER":
-      return { ...state, counter: state.counter + payload };
-
-    case "DECREMENT_COUNTER":
-      return { ...state, counter: state.counter - payload };
+      return { ...store, counter: store.counter + payload };
 
     default:
-      return state;
+      return store;
   }
 }
 
-export default reducer;
-
 //store.js
 import { legacy_createStore } from "redux";
-import reducer from "./reducer";
+import { reducer } from "./reducer";
 
 const initialState = {
   counter: 0,
 };
 
-const store = legacy_createStore(reducer, initialState);
-
-export default store;
+export const store = legacy_createStore(reducer, initialState);
 
 //*************************************Component********************************************
 
 //Counter.jsx
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { decrementCounter, incrementCounter } from "../Redux/action";
+import { incrementCounter } from "../Redux/action";
 
 const Counter = () => {
   const count = useSelector((store) => store.counter);
@@ -62,16 +46,14 @@ const Counter = () => {
   const dispatch = useDispatch();
 
   const handleInc = () => {
+    //1 is payload (it means increment counter value by 1)
     dispatch(incrementCounter(1));
   };
-  const handleDec = () => {
-    dispatch(decrementCounter(1));
-  };
+
   return (
     <div>
       <h1>Count: {count}</h1>
       <button onClick={handleInc}>Inc</button>
-      <button onClick={handleDec}>Dec</button>
     </div>
   );
 };
@@ -80,7 +62,7 @@ export default Counter;
 
 //index.js config
 import { Provider } from "react-redux";
-import store from "./Redux/store";
+import { store } from "./Redux/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

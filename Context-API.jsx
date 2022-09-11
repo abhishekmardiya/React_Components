@@ -1,8 +1,4 @@
-//Context API Bolier Plate Code
-
-
-
-//context
+//CounterContext.jsx
 import { createContext, useState } from "react";
 
 export const CounterContext = createContext();
@@ -19,8 +15,6 @@ export function CounterContextProvider({ children }) {
     </CounterContext.Provider>
   );
 }
-
-
 
 //component
 import React, { useContext } from "react";
@@ -39,14 +33,11 @@ function Counter() {
 
 export default Counter;
 
-
-
-//index.js configuration 
+//index.js configuration
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { CounterContextProvider } from "./context/CounterContext";
-
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -54,4 +45,3 @@ root.render(
     <App />
   </CounterContextProvider>
 );
-
